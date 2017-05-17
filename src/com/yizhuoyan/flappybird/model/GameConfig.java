@@ -2,15 +2,11 @@ package com.yizhuoyan.flappybird.model;
 
 public class GameConfig {
 	/**
-	 * 游戏窗口大小
+	 * 游戏画面大小
 	 */
-	final public int gameWindowWidth=800,gameWindowHeight=600;
-	/**
-	 * 游戏画布大小,启动时计算得出
-	 */
-	public int canvasWidth,canvasHeight;
+	public int canvasWidth=800,canvasHeight=600;
 	
-	public int fps=1000/60;
+	public int fps=Math.round(1000/60f);
 	
 	public float birdSpeed=2f;
 	

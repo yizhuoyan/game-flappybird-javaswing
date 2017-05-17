@@ -17,9 +17,9 @@ public class GameReadyScene extends AbstractGameScene{
 	public Bird bird;
 	public GameReadyScene(Game game) {
 		super(game);
-		this.bird=new Bird(game);
 		GameConfig config=game.config;
 		world=new World(game);
+		this.bird=new Bird(game,world.getSkyWidth(),world.getSkyHeight());
 		this.gameReadyImageX=(config.canvasWidth-gameReadyImage.getWidth())/2;
 		this.gameReadyImageY=(config.canvasHeight-gameReadyImage.getHeight())/2;
 	}

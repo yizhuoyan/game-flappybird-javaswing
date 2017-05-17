@@ -36,11 +36,11 @@ public class Bird extends Spirit {
 	// 鸟前面的管子
 	private Pipe frontPipe;
 
-	public Bird(Game game) {
+	public Bird(Game game,int maxX,int maxY) {
 		super(game);
 		GameConfig config = game.config;
-		this.maxY = config.gameWindowHeight;
-		this.maxX = config.gameWindowWidth;
+		this.maxY =maxX;
+		this.maxX = maxY;
 		this.flySpeed = config.birdSpeed;
 		this.w = birdImage.getWidth() / 3;
 		this.h = birdImage.getHeight();

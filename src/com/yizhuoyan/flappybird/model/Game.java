@@ -1,24 +1,32 @@
 package com.yizhuoyan.flappybird.model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
 import com.yizhuoyan.flappybird.model.scene.GameOverScene;
 import com.yizhuoyan.flappybird.model.scene.GamePlayingScene;
 import com.yizhuoyan.flappybird.model.scene.GameReadyScene;
 import com.yizhuoyan.flappybird.model.scene.GameScene;
 import com.yizhuoyan.flappybird.util.GameAudio;
 import com.yizhuoyan.flappybird.util.ResourceUtil;
-import com.yizhuoyan.flappybird.view.GameWindow;
+import com.yizhuoyan.flappybird.view.GameView;
 
 public class Game implements Runnable {
 	public final static int STATUS_INIT=0,
 							STATUS_READY=1,
 							STATUS_PLAYING=2,
 							STATUS_OVER=9;
-	//游戏窗口
-	private GameWindow gameWindow;
+	//游戏视图
+	private GameView view;
 	//游戏配置
 	public final GameConfig config;
 	//游戏线程
 	private volatile Thread gameThread;
+	
 	/**
 	 * 游戏状态
 	 */
@@ -37,6 +45,9 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	public JComponent getView(){
+		return view;
+	}
 	/**
 	 * 游戏初始化
 	 */
@@ -47,7 +58,7 @@ public class Game implements Runnable {
 		//游戏线程
 		this.gameThread = new Thread(this);
 		//游戏窗口
-		this.gameWindow = new GameWindow(this);
+		this.view = new GameView(this);
 		//游戏场景
 		this.readySence = new GameReadyScene(this);
 		this.playingSence = new GamePlayingScene(this);
@@ -64,6 +75,7 @@ public class Game implements Runnable {
 		this.overSence.reset();
 		this.currentScene = this.readySence;
 		this.status=STATUS_INIT;
+		
 	}
 	
 	/**
@@ -102,11 +114,12 @@ public class Game implements Runnable {
 			long begin = 0;
 			long passTime = 0;
 			final int fps = this.config.fps;
-			final GameWindow win = this.gameWindow;
+			final GameView view = this.view;
 			while (gameThread!=null) {
-				begin = System.currentTimeMillis();
-				win.paintScene(this.currentScene);
-				passTime = System.currentTimeMillis() - begin;
+				begin = System.nanoTime();
+				view.paintScene(this.currentScene);
+				passTime = System.nanoTime() - begin;
+				passTime/=1e6;
 				if (passTime < fps) {
 					Thread.sleep(fps - passTime);
 				}
